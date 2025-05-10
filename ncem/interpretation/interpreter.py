@@ -907,9 +907,12 @@ class InterpreterInteraction(estimators.EstimatorInteractions, InterpreterBase):
 
         print("using ols parameters.")
         if params_type == "ols":
+            target = target.reshape(-1, len(target[0][0]))
+            interactions = interactions.reshape(-1, len(interactions[0][0]))
             print(target.shape)
             print(interactions.shape)
-            x_design = np.concatenate([target, interactions.squeeze()], axis=1)
+            x_design = np.concatenate([target, interactions], axis=1)
+            y = y.reshape(63510, 36)
             ols = ols_fit(x_=x_design, y_=y)
             params = ols.squeeze()
         else:
